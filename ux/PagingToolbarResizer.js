@@ -5,7 +5,7 @@
  *
  * @author    Loiane Groner <http://loianegroner.com> <http://loiane.com>
  * @date      September 2011
- * @version   1 - ported to Ext JS 4
+ * @version   1 - ported to Ext JS 4 -> Ext JS 6
  *
  * @license Ext.ux.PagingToolbarResizer is licensed under the terms of
  * the Open Source LGPL 3.0 license.  Commercial use is permitted to the extent
@@ -24,9 +24,9 @@
  * 
  * How to use
  * 
-	Just instatiate a new PagingToolbarResizer inside PagingToolbar plugins option:
+    Just instatiate a new PagingToolbarResizer inside PagingToolbar plugins option:
 
-	bbar: new Ext.PagingToolbar({
+    bbar: new Ext.PagingToolbar({
             pageSize: 25,
             store: store,
             displayInfo: true,
@@ -44,23 +44,23 @@ Ext.define('Ext.ux.PagingToolbarResizer', {
    * The {@link Ext.data.Store} combobox should use as its data source (required).
    * You can also use an array of integers.
    * Defaults to [5, 10, 15, 20, 25, 30, 50, 75, 100, 200, 300, 500, 1000]
-   */	
+   */   
   options: [5, 10, 15, 20, 25, 30, 50, 75, 100, 200, 300, 500, 1000],
   
   /**
    * @cfg {String} mode Acceptable values are:
    * 
    * 
-	'remote' : Default
+    'remote' : Default
    * 
-	Automatically loads the {@link #store} the first time the trigger
+    Automatically loads the {@link #store} the first time the trigger
    * is clicked. If you do not want the store to be automatically loaded the first time the trigger is
    * clicked, set to 'local' and manually load the store.  To force a requery of the store
    * every time the trigger is clicked see {@link #lastQuery}.
    * 
-	'local' :
+    'local' :
    * 
-	ComboBox loads local data
+    ComboBox loads local data
    * 
    * 
    */
@@ -73,18 +73,18 @@ Ext.define('Ext.ux.PagingToolbarResizer', {
   displayText: 'Records per Page',
 
   constructor: function(config) {
-	
+    
     Ext.apply(this, config);
     
     this.callParent(arguments);
   },
 
   init : function(pagingToolbar) {
-	
-	var comboStore = this.options;
-	
-	var ptStore = pagingToolbar.store;
-	  
+    
+    var comboStore = this.options;
+    
+    var ptStore = pagingToolbar.store;
+      
     var combo = Ext.create('Ext.form.field.ComboBox',{
       typeAhead: false,
       triggerAction: 'all',
@@ -93,12 +93,12 @@ Ext.define('Ext.ux.PagingToolbarResizer', {
       editable: false,
       mode: this.mode,
       value: ptStore.pageSize,
-      width:50,
+      width:60,
       store: comboStore,
       listeners: {
         select: function(combo, value, i){
-        	ptStore.pageSize = value[0].data.field1;
-        	ptStore.loadPage(1);
+            ptStore.pageSize = value.data.field1;
+            ptStore.loadPage(1);
         }
       }
     });
@@ -111,7 +111,7 @@ Ext.define('Ext.ux.PagingToolbarResizer', {
     //destroy combobox before destroying the paging toolbar
     pagingToolbar.on({
       beforedestroy: function(){
-    	combo.destroy();
+        combo.destroy();
       }
     });
 
